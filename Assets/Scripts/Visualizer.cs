@@ -7,8 +7,9 @@ public class Visualizer : MonoBehaviour
 {
     public LSystemGenerator lsystem;
     List<Vector3> positions = new List<Vector3>();
-    public GameObject prefab;
-    public Material lineMaterial;
+
+    public RoadHelper roadHelper;
+    public BuildingHelper buildingHelper;
 
     private int length = 8;
     private float angle = 90;
@@ -74,7 +75,7 @@ public class Visualizer : MonoBehaviour
                 case EncodingLetters.draw:
                     tempPosition = currentPosition;
                     currentPosition += direction * length;
-                    //
+                    roadHelper.PlaceStreetPositions(tempPosition, Vector3Int.RoundToInt(direction), length);
                     Length -= 2;
                     positions.Add(currentPosition);
                     break;
@@ -89,7 +90,8 @@ public class Visualizer : MonoBehaviour
 
             }
         }
-
+        roadHelper.FixRoad();
+        buildingHelper.PlaceStructuresAroundRoad(roadHelper.GetRoadPositions());
 
     }
 }
